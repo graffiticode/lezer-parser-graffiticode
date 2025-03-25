@@ -1,6 +1,6 @@
 {
-  "name": "@lezer/graffiticode",
-  "version": "0.1.0",
+  "name": "@graffiticode/lezer-graffiticode",
+  "version": "0.0.6",
   "description": "lezer-based Graffiticode grammar",
   "main": "dist/index.cjs",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "Jeff Dyer",
+  "author": "Marijn Haverbeke <marijn@haverbeke.berlin>",
   "license": "MIT",
   "devDependencies": {
     "@lezer/generator": "^1.0.0",
@@ -19,9 +19,9 @@
     "@rollup/plugin-node-resolve": "^9.0.0"
   },
   "dependencies": {
+    "@lezer/lr": "^1.3.0",
     "@lezer/common": "^1.2.0",
-    "@lezer/highlight": "^1.0.0",
-    "@lezer/lr": "^1.0.0"
+    "@lezer/highlight": "^1.1.3"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,6 @@
     "build": "lezer-generator src/graffiticode.grammar -o src/parser && rollup -c",
     "build-debug": "lezer-generator src/graffiticode.grammar --names -o src/parser && rollup -c",
     "prepare": "npm run build",
-    "test": "npm run build && mocha test/test-graffiticode.js"
+    "test": "mocha test/test-graffiticode.js"
   }
 }

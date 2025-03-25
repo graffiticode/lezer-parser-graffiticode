@@ -4,7 +4,7 @@ true..
 
 ==>
 
-GraffiticodeText(Program(ExpressionStatement(Expression(True)),Terminator))
+Program(ExpressionStatement(BooleanLiteral))
 
 # False
 
@@ -12,7 +12,7 @@ false..
 
 ==>
 
-GraffiticodeText(Program(ExpressionStatement(Expression(False)),Terminator))
+Program(ExpressionStatement(BooleanLiteral))
 
 # Null
 
@@ -20,4 +20,4 @@ null..
 
 ==>
 
-GraffiticodeText(Program(ExpressionStatement(Expression(Null)),Terminator))
+Program(ExpressionStatement(null))

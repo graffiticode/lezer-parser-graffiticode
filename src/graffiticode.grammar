@@ -1,48 +1,186 @@
-@top GraffiticodeText { Program }
-
-Program { (LetDefinition | ExpressionStatement)* Terminator }
-
-LetDefinition { Let "=" Expression Terminator }
-
-ExpressionStatement { Expression }
-
-Expression { True | False | Null | Number | String | Object | Array }
-
-String[isolate] { string }
-Object { "{" list<Property>? "}" }
-Array  { "[" list<Expression>? "]" }
-
-Property { PropertyName ":" Expression }
-PropertyName[isolate] { string }
-
-
-@tokens {
-  Let { "let" }
-  
-  True  { "true" }
-  False { "false" }
-  Null  { "null" }
-
-  Terminator { ".." }
-
-  Number { '-'? int frac? exp?  }
-  int  { '0' | $[1-9] @digit* }
-  frac { '.' @digit+ }
-  exp  { $[eE] $[+\-]? @digit+ }
-
-  string { '"' char* '"' }
-  char { $[\u{20}\u{21}\u{23}-\u{5b}\u{5d}-\u{10ffff}] | "\\" esc }
-  esc  { $["\\\/bfnrt] | "u" hex hex hex hex }
-  hex  { $[0-9a-fA-F] }
-
-  whitespace { $[ \n\r\t] }
-
-  "{" "}" "[" "]" "," ":" "="
+@precedence {
+  comma @left
 }
 
-@skip { whitespace }
-list<item> { item ("," item)* ","? }
+@top Program { statement* dotdot }
 
-@external propSource graffiticodeHighlighting from "./highlight"
+@top SingleExpression { expression }
+
+statement[@isGroup=Statement] {
+  declaration |
+  ExpressionStatement { expression }
+}
+
+declaration {
+  VariableDeclaration
+}
+
+variableDeclarationKeyword {
+  kw<"let"> //| kw<"var"> | kw<"const"> | ckw<"await">? ckw<"using">
+}
+
+VariableDeclaration {
+  variableDeclarationKeyword commaSep1<patternAssignTyped> dotdot
+}
+
+pattern { VariableDefinition | ArrayPattern | ObjectPattern }
+
+ArrayPattern { "[" commaSep<("..."? patternAssign)?> ~destructure "]" }
+
+ObjectPattern { "{" commaSep<PatternProperty> ~destructure "}" }
+
+patternAssign {
+  pattern ("=" expressionNoComma)?
+}
+
+patternAssignTyped {
+  pattern Optional? ("=" expressionNoComma)?
+}
+
+expression[@isGroup=Expression] {
+  expressionNoComma | SequenceExpression
+}
+
+SequenceExpression {
+  expressionNoComma !comma ("," expressionNoComma)+
+}
+
+expressionNoComma {
+  Number |
+  String |
+  TemplateString |
+  VariableName |
+  boolean |
+  kw<"null"> |
+  ArrayExpression |
+  ObjectExpression { "{" commaSep<Property> ~destructure "}" } |
+  ParenthesizedExpression |
+  Lambda
+}
+
+ParenthesizedExpression { "(" expression ")" }
+
+Lambda {
+  "<" identifier* ":" expressionNoComma ">"
+}
+
+ArrayExpression {
+  "[" commaSep1<"..."? expressionNoComma | ""> ~destructure "]"
+}
+
+propName { PropertyDefinition | "[" expression "]" ~destructure | Number ~destructure | String ~destructure }
+
+Property {
+  propName ~destructure (":" expressionNoComma)? |
+  "..." expressionNoComma
+}
+
+PatternProperty {
+  "..." patternAssign |
+  ((PropertyName | Number | String) ~destructure (":" pattern)? |
+   ("[" expression "]" ~destructure ":" pattern)) ("=" expressionNoComma)?
+}
+
+@skip {} {
+  TemplateString[isolate] {
+    templateStart (templateEscape | templateContent | templateExpr)* templateEnd
+  }
+
+  String[isolate] {
+    '"' (stringContentDouble | Escape)* ('"' | "\n") |
+    "'" (stringContentSingle | Escape)* ("'" | "\n")
+  }
+}
+
+templateExpr[@name=Interpolation,isolate] { InterpolationStart expression? InterpolationEnd }
+
+commaSep<content> {
+  "" | content ("," content?)*
+}
+
+commaSep1<content> {
+  content ("," content)*
+}
+
+kw<term> { @specialize[@name={term}]<identifier, term> }
+
+boolean { @specialize[@name=BooleanLiteral]<identifier, "true" | "false"> }
+
+VariableName { identifier ~arrow }
+
+VariableDefinition { identifier ~arrow }
+
+PropertyName { word ~propName }
+
+PropertyDefinition { word ~propName }
+
+Optional { "?" }
+
+@skip {
+  spaces |
+  newline |
+  LineComment
+}
+
+@context trackNewline from "./tokens.js"
+
+@local tokens {
+  InterpolationStart[closedBy=InterpolationEnd] { "${" }
+  templateEnd { "`" }
+  templateEscape[@name=Escape] { Escape }
+  @else templateContent
+}
+
+@tokens {
+  spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
+  newline[@export] { $[\r\n\u2028\u2029] }
+
+  LineComment[isolate] { "//" ![\n]* }
+
+  dotdot { ".." }
+
+  identifierChar { @asciiLetter | $[_$\u{a1}-\u{10ffff}] }
+
+  word { identifierChar (identifierChar | @digit | "-")* }
+
+  identifier { word }
+
+  @precedence { spaces, newline, identifier }
+
+  @precedence { spaces, newline, word }
+
+  hex { @digit | $[a-fA-F] }
+
+  Number {
+    '-'? (@digit ("_" | @digit)* ("." ("_" | @digit)*)? | "." @digit ("_" | @digit)*)
+      (("e" | "E") ("+" | "-")? ("_" | @digit)+)? |
+    @digit ("_" | @digit)* "n" |
+    "0x" (hex | "_")+ "n"? |
+    "0b" $[01_]+ "n"? |
+    "0o" $[0-7_]+ "n"?
+  }
+
+  Escape {
+    "\\" ("x" hex hex | "u" ("{" hex+ "}" | hex hex hex hex) | ![xu])
+  }
+
+  stringContentSingle { ![\\\n']+ }
+
+  stringContentDouble { ![\\\n"]+ }
+
+  templateStart { "`" }
+
+  InterpolationEnd[openedBy=InterpolationStart] { "}" }
+
+  "="[@name=Equals]
+  "..."[@name=Spread]
+  "=>"[@name=Arrow]
+
+  "(" ")" "[" "]" "{" "}" "<" ">"
+
+  "." "," ";" ":" "@"
+}
+
+@external propSource jsHighlight from "./highlight"
 
 @detectDelim
