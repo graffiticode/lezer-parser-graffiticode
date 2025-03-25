@@ -1,6 +1,6 @@
 import {styleTags, tags as t} from "@lezer/highlight"
 
-export const jsonHighlighting = styleTags({
+export const graffiticodeHighlighting = styleTags({
   String: t.string,
   Number: t.number,
   "True False": t.bool,

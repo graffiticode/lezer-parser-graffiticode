@@ -4,7 +4,7 @@
 
 ==>
 
-JsonText(Object)
+GraffiticodeText(Object)
 
 # One Property
 
@@ -14,7 +14,7 @@ JsonText(Object)
 
 ==>
 
-JsonText(Object(Property(PropertyName,Number)))
+GraffiticodeText(Object(Property(PropertyName,Number)))
 
 # Multiple Properties
 
@@ -27,7 +27,7 @@ JsonText(Object(Property(PropertyName,Number)))
 
 ==>
 
-JsonText(Object(
+GraffiticodeText(Object(
   Property(PropertyName,Number),
   Property(PropertyName,String),
   Property(PropertyName,Object),

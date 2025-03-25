@@ -1,4 +1,4 @@
-@top JsonText { value }
+@top GraffiticodeText { value }
 
 value { True | False | Null | Number | String | Object | Array }
 
@@ -33,6 +33,6 @@ PropertyName[isolate] { string }
 @skip { whitespace }
 list<item> { item ("," item)* }
 
-@external propSource jsonHighlighting from "./highlight"
+@external propSource graffiticodeHighlighting from "./highlight"
 
 @detectDelim

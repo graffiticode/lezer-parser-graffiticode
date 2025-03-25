@@ -1,7 +1,5 @@
-# @lezer/json
+# @lezer/graffiticode
 
-This is a JSON grammar for the [lezer](https://lezer.codemirror.net/) parser system.
+This is a Graffiticode grammar for the [lezer](https://lezer.codemirror.net/) parser system.
 
-Reference:
-- https://www.json.org/json-en.html
-- https://tools.ietf.org/html/rfc8259 (The latest IETF RFC – contains the latest full spec)
+This grammar is a starting point for implementing the Graffiticode functional DSL. It is currently based on JSON syntax and will be extended to support the specific features of the Graffiticode language.
