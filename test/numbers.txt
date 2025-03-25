@@ -1,87 +1,87 @@
 # Simple Integer
 
-42
+42..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Zero By Itself Is Ok
 
-0
+0..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Leading Zeros Aren't Ok
 
-[0123]
+[0123]..
 
 ==>
 
-GraffiticodeText(Array(Number, ⚠(Number)))
+GraffiticodeText(Program(ExpressionStatement(Expression(Array(Expression(Number), ⚠(Number)))),Terminator))
 
 # Optional Minus Sign
 
--53
+-53..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Decimal Digits
 
-123.4
+123.4..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Must Have Digits After Decimal
 
-123.
+123.4..
 
 ==>
 
-GraffiticodeText(Number, ⚠)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Exponent: Lowercase e
 
-1e5
+1e5..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Exponent: Uppercase E
 
-1E5
+1E5..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Exponent: Optional Plus Sign
 
-1e+5
+1e+5..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
 # Exponent: Optional Minus Sign
 
-1E-5
+1E-5..
 
 ==>
 
-GraffiticodeText(Number)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))
 
-# Exponent Without Digit Is Not Ok
+# Optional Exponent
 
-42e
+42..
 
 ==>
 
-GraffiticodeText(Number, ⚠)
+GraffiticodeText(Program(ExpressionStatement(Expression(Number)),Terminator))

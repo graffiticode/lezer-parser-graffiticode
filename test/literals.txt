@@ -1,23 +1,23 @@
 # True
 
-true
+true..
 
 ==>
 
-GraffiticodeText(True)
+GraffiticodeText(Program(ExpressionStatement(Expression(True)),Terminator))
 
 # False
 
-false
+false..
 
 ==>
 
-GraffiticodeText(False)
+GraffiticodeText(Program(ExpressionStatement(Expression(False)),Terminator))
 
 # Null
 
-null
+null..
 
 ==>
 
-GraffiticodeText(Null)
+GraffiticodeText(Program(ExpressionStatement(Expression(Null)),Terminator))

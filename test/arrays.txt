@@ -1,18 +1,18 @@
 # Empty Array
 
-[ ]
+[ ]..
 
 ==>
 
-GraffiticodeText(Array)
+GraffiticodeText(Program(ExpressionStatement(Expression(Array)),Terminator))
 
 # Array With One Value
 
-["One is the loneliest number"]
+["One is the loneliest number"]..
 
 ==>
 
-GraffiticodeText(Array(String))
+GraffiticodeText(Program(ExpressionStatement(Expression(Array(Expression(String)))),Terminator))
 
 # Array With Multiple Values
 
@@ -22,13 +22,32 @@ GraffiticodeText(Array(String))
   true,
   { },
   ["I'm", "nested"]
-]
+]..
 
 ==>
 
-GraffiticodeText(Array(
-  String,
-  Number,
-  True,
-  Object,
-  Array(String,String)))
+GraffiticodeText(Program(ExpressionStatement(Expression(Array(
+  Expression(String),
+  Expression(Number),
+  Expression(True),
+  Expression(Object),
+  Expression(Array(Expression(String),Expression(String)))))),Terminator))
+
+# Array With Trailing Comma
+
+[
+  "The more the merrier",
+  1e5,
+  true,
+  { },
+  ["I'm", "nested"],
+]..
+
+==>
+
+GraffiticodeText(Program(ExpressionStatement(Expression(Array(
+  Expression(String),
+  Expression(Number),
+  Expression(True),
+  Expression(Object),
+  Expression(Array(Expression(String),Expression(String)))))),Terminator))

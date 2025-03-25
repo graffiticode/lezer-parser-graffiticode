@@ -1,19 +1,29 @@
-@top GraffiticodeText { value }
+@top GraffiticodeText { Program }
 
-value { True | False | Null | Number | String | Object | Array }
+Program { (LetDefinition | ExpressionStatement)* Terminator }
+
+LetDefinition { Let "=" Expression Terminator }
+
+ExpressionStatement { Expression }
+
+Expression { True | False | Null | Number | String | Object | Array }
 
 String[isolate] { string }
 Object { "{" list<Property>? "}" }
-Array  { "[" list<value>? "]" }
+Array  { "[" list<Expression>? "]" }
 
-Property { PropertyName ":" value }
+Property { PropertyName ":" Expression }
 PropertyName[isolate] { string }
 
 
 @tokens {
+  Let { "let" }
+  
   True  { "true" }
   False { "false" }
   Null  { "null" }
+
+  Terminator { ".." }
 
   Number { '-'? int frac? exp?  }
   int  { '0' | $[1-9] @digit* }
@@ -27,11 +37,11 @@ PropertyName[isolate] { string }
 
   whitespace { $[ \n\r\t] }
 
-  "{" "}" "[" "]" "," ":"
+  "{" "}" "[" "]" "," ":" "="
 }
 
 @skip { whitespace }
-list<item> { item ("," item)* }
+list<item> { item ("," item)* ","? }
 
 @external propSource graffiticodeHighlighting from "./highlight"
 

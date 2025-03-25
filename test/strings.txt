@@ -1,31 +1,31 @@
 # Empty String
 
-""
+""..
 
 ==>
 
-GraffiticodeText(String)
+GraffiticodeText(Program(ExpressionStatement(Expression(String)),Terminator))
 
 # Non-empty String
 
-"This is a boring old string"
+"This is a boring old string"..
 
 ==>
 
-GraffiticodeText(String)
+GraffiticodeText(Program(ExpressionStatement(Expression(String)),Terminator))
 
 # All The Valid One-Character Escapes
 
-"\"\\\/\b\f\n\rt\t"
+"\"\\\/\b\f\n\rt\t"..
 
 ==>
 
-GraffiticodeText(String)
+GraffiticodeText(Program(ExpressionStatement(Expression(String)),Terminator))
 
 # Unicode Escape
 
-"\u005C"
+"\u005C"..
 
 ==>
 
-GraffiticodeText(String)
+GraffiticodeText(Program(ExpressionStatement(Expression(String)),Terminator))
