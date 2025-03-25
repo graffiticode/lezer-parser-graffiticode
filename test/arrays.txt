@@ -1,0 +1,69 @@
+# Empty ArrayExpression
+
+[ ]..
+
+==>
+
+Program(ExpressionStatement(ArrayExpression))
+
+# ArrayExpression With One Value
+
+["One is the loneliest number"]..
+
+==>
+
+Program(ExpressionStatement(ArrayExpression(String)))
+
+# ArrayExpression With Multiple Values
+
+[
+  "The more the merrier",
+  1e5,
+  true,
+  { },
+  ["I'm", "nested"]
+]..
+
+==>
+
+Program(
+  ExpressionStatement(
+    ArrayExpression("[",
+      String,",",
+      Number,",",
+      BooleanLiteral,",",
+      ObjectExpression("{","}"),",",
+      ArrayExpression("[",
+        String,",",
+        String,"]"
+      ),"]"
+    )
+  )
+)
+
+# ArrayExpression With Trailing Comma
+
+[
+  "The more the merrier",
+  1e5,
+  true,
+  { },
+  ["I'm", "nested"],
+]..
+
+==>
+
+Program(
+  ExpressionStatement(
+    ArrayExpression("[",
+      String,",",
+      Number,",",
+      BooleanLiteral,",",
+      ObjectExpression("{","}"),",",
+      ArrayExpression("[",
+        String,",",
+        String,"]"
+      ),",","]"
+    )
+  )
+)

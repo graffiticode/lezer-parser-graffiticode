@@ -1,0 +1,80 @@
+# Empty ObjectExpression
+
+{ }..
+
+==>
+
+Program(ExpressionStatement(ObjectExpression))
+
+# One Property
+
+{
+  "foo": 123
+}..
+
+==>
+
+Program(ExpressionStatement(ObjectExpression(Property(String,Number))))
+
+# Multiple Properties
+
+{
+  "foo": 123,
+  "bar": "I'm a bar!",
+  "obj": {},
+  "arr": [1, 2, 3]
+}..
+
+==>
+
+Program(ExpressionStatement(
+  ObjectExpression("{",
+    Property(String,":",Number),",",
+    Property(String,":",String),",",
+    Property(String,":",
+    ObjectExpression("{","}")),",",
+    Property(String,":",
+      ArrayExpression("[",Number,",",Number,",",Number,"]")
+    ),"}"
+  )
+))
+
+# Trailing Comma in ObjectExpression
+
+{
+  "foo": 123,
+  "bar": "I'm a bar!",
+  "obj": {},
+  "arr": [1, 2, 3],
+}..
+
+==>
+
+Program(ExpressionStatement(
+  ObjectExpression("{",
+    Property(String,":",Number),",",
+    Property(String,":",String),",",
+    Property(String,":",
+    ObjectExpression("{","}")),",",
+    Property(String,":",
+      ArrayExpression("[",Number,",",Number,",",Number,"]")
+    ),",","}"
+  )
+))
+
+# Nested ObjectExpressions with Trailing Commas
+
+{
+  "nested": {
+    "foo": 123,
+    "bar": "nested value",
+  },
+  "arr": [
+    { "item": 1 },
+    { "item": 2 },
+  ],
+}..
+
+==>
+
+Program(ExpressionStatement(ObjectExpression("{",Property(String,":",ObjectExpression("{",Property(String,":",Number),",",Property(String,":",String),",","}")),",",Property(String,":",ArrayExpression("[",ObjectExpression("{",Property(String,":",Number),"}"),",",ObjectExpression("{",Property(String,":",Number),"}"),",","]")),",","}")))
