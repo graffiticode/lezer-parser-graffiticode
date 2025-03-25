@@ -4,7 +4,10 @@ true..
 
 ==>
 
-Program(ExpressionStatement(BooleanLiteral))
+Program(
+  ExpressionStatement(BooleanLiteral),
+  Terminator
+)
 
 # False
 
@@ -12,7 +15,10 @@ false..
 
 ==>
 
-Program(ExpressionStatement(BooleanLiteral))
+Program(
+  ExpressionStatement(BooleanLiteral),
+  Terminator
+)
 
 # Null
 
@@ -20,4 +26,7 @@ null..
 
 ==>
 
-Program(ExpressionStatement(null))
+Program(
+  ExpressionStatement(null),
+  Terminator
+)

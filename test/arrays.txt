@@ -4,7 +4,10 @@
 
 ==>
 
-Program(ExpressionStatement(ArrayExpression))
+Program(
+  ExpressionStatement(ArrayExpression),
+  Terminator
+)
 
 # ArrayExpression With One Value
 
@@ -12,7 +15,14 @@ Program(ExpressionStatement(ArrayExpression))
 
 ==>
 
-Program(ExpressionStatement(ArrayExpression(String)))
+Program(
+  ExpressionStatement(
+    ArrayExpression(
+      String
+    )
+  ),
+  Terminator
+)
 
 # ArrayExpression With Multiple Values
 
@@ -38,7 +48,8 @@ Program(
         String,"]"
       ),"]"
     )
-  )
+  ),
+  Terminator
 )
 
 # ArrayExpression With Trailing Comma
@@ -65,5 +76,6 @@ Program(
         String,"]"
       ),",","]"
     )
-  )
+  ),
+  Terminator
 )

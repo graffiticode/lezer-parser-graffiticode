@@ -2,9 +2,12 @@
   comma @left
 }
 
-@top Program { statement* dotdot }
+@top Program { statement* Terminator }
 
 @top SingleExpression { expression }
+
+
+Terminator { dotdot }
 
 statement[@isGroup=Statement] {
   declaration |
@@ -20,7 +23,7 @@ variableDeclarationKeyword {
 }
 
 VariableDeclaration {
-  variableDeclarationKeyword commaSep1<patternAssignTyped> dotdot
+  variableDeclarationKeyword commaSep1<patternAssignTyped> Terminator
 }
 
 pattern { VariableDefinition | ArrayPattern | ObjectPattern }

@@ -5,7 +5,10 @@
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Zero By Itself Is Ok
 
@@ -14,7 +17,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Leading Zeros Aren't Ok
 
@@ -23,7 +29,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(ArrayExpression(Number)))
+Program(
+  ExpressionStatement(ArrayExpression(Number)),
+  Terminator
+)
 
 # Optional Minus Sign
 
@@ -32,7 +41,10 @@ Program(ExpressionStatement(ArrayExpression(Number)))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Decimal Digits
 
@@ -41,7 +53,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Must Have Digits After Decimal
 
@@ -50,7 +65,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Exponent: Lowercase e
 
@@ -59,7 +77,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Exponent: Uppercase E
 
@@ -68,7 +89,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Exponent: Optional Plus Sign
 
@@ -77,7 +101,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Exponent: Optional Minus Sign
 
@@ -86,7 +113,10 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
 
 # Optional Exponent
 
@@ -95,4 +125,7 @@ Program(ExpressionStatement(Number))
 
 ==>
 
-Program(ExpressionStatement(Number))
+Program(
+  ExpressionStatement(Number),
+  Terminator
+)
