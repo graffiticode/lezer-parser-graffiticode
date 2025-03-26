@@ -22,72 +22,54 @@ Program(
   Terminator
 )
 
-# Multiple Properties
+# Multiple Properties Without Commas
 
 {
-  "foo": 123,
-  "bar": "I'm a bar!",
-  "obj": {},
-  "arr": [1, 2, 3]
+  "foo": 123
+  "bar": "I'm a bar!"
+  "obj": {}
+  "arr": [1 2 3]
 }..
 
 ==>
 
 Program(ExpressionStatement(
-  ObjectExpression("{",
-    Property(String,":",Number),",",
-    Property(String,":",String),",",
-    Property(String,":",
-    ObjectExpression("{","}")),",",
-    Property(String,":",
-      ArrayExpression("[",Number,",",Number,",",Number,"]")
-    ),"}"
+  ObjectExpression(
+    Property(String, Number)
+    Property(String, String)
+    Property(String, ObjectExpression)
+    Property(String, ArrayExpression(Number, Number, Number))
   )),
   Terminator
 )
 
-# Trailing Comma in ObjectExpression
+# Nested ObjectExpressions Without Commas
 
 {
-  "foo": 123,
-  "bar": "I'm a bar!",
-  "obj": {},
-  "arr": [1, 2, 3],
+  "nested": {
+    "foo": 123
+    "bar": "nested value"
+  }
+  "arr": [
+    { "item": 1 }
+    { "item": 2 }
+  ]
 }..
 
 ==>
 
 Program(
   ExpressionStatement(
-  ObjectExpression("{",
-    Property(String,":",Number),",",
-    Property(String,":",String),",",
-    Property(String,":",
-    ObjectExpression("{","}")),",",
-    Property(String,":",
-      ArrayExpression("[",Number,",",Number,",",Number,"]")
-    ),",","}"
-  )),
-  Terminator
-)
-
-# Nested ObjectExpressions with Trailing Commas
-
-{
-  "nested": {
-    "foo": 123,
-    "bar": "nested value",
-  },
-  "arr": [
-    { "item": 1 },
-    { "item": 2 },
-  ],
-}..
-
-==>
-
-Program(
-  ExpressionStatement(ObjectExpression("{",Property(String,":",ObjectExpression("{",Property(String,":",Number),",",Property(String,":",String),",","}")),",",Property(String,":",ArrayExpression("[",ObjectExpression("{",Property(String,":",Number),"}"),",",ObjectExpression("{",Property(String,":",Number),"}"),",","]")),",","}")
+    ObjectExpression(
+      Property(String, ObjectExpression(
+        Property(String, Number)
+        Property(String, String)
+      ))
+      Property(String, ArrayExpression(
+        ObjectExpression(Property(String, Number))
+        ObjectExpression(Property(String, Number))
+      ))
+    )
   ),
   Terminator
 )

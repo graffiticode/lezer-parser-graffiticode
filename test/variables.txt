@@ -1,0 +1,54 @@
+# Simple Variable Declaration
+
+let x = 42 .. ..
+
+==>
+
+Program(
+  VariableDeclaration(
+    let,
+    VariableDefinition,
+    Number
+  ),
+  Terminator
+)
+
+# Variable Declaration with Complex Values
+
+let obj = { x: 10 y: 20 }.. ..
+
+==>
+
+Program(
+  LetDeclaration(
+    let,
+    LetDeclarator(
+      Name,
+      Equals,
+      ObjectExpression("{",
+        Property(PropertyName,":",Number
+      ),
+      Property(PropertyName,":",Number),"}")),Terminator),Terminator)
+
+# Variable Declaration with Function Call
+
+let result = add 10 20
+    ..
+..
+
+==>
+
+Program(
+  LetDeclaration(
+    let,
+    LetDeclarator(
+      BindingName,
+      Equals,
+      Name,
+      Number,
+      Number
+    ),
+    Terminator
+  ),
+  Terminator
+)

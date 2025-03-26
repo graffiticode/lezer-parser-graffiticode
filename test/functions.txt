@@ -1,0 +1,51 @@
+# Simple Function Call
+
+foo 42 "bar"..
+
+==>
+
+Program(
+  VariableName,
+  Number,
+  String,
+  Terminator
+)
+
+# Function Call With Multiple Arguments
+
+foo 42 "bar" true null..
+
+==>
+
+Program(
+  ExpressionStatement(VariableName),
+  ExpressionStatement(Number),
+  ExpressionStatement(String),
+  ExpressionStatement(BooleanLiteral),
+  ExpressionStatement(null),
+  Terminator
+)
+
+# Nested Function Calls
+
+foo bar 42..
+
+==>
+
+Program(ExpressionStatement(FunctionCall(VariableName, FunctionCall(VariableName, Number))))
+
+# Function Call With Complex Arguments
+
+foo [1 2 3] {x: 42}..
+
+==>
+
+Program(ExpressionStatement(FunctionCall(VariableName, ArrayExpression(Number, Number, Number), ObjectExpression(Property(PropertyDefinition, Number)))))
+
+# Function Call In Variable Declaration
+
+let x = foo 42 "bar"..
+
+==>
+
+Program(VariableDeclaration(VariableDefinition, FunctionCall(VariableName, Number, String)))

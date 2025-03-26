@@ -24,14 +24,14 @@ Program(
   Terminator
 )
 
-# ArrayExpression With Multiple Values
+# ArrayExpression With Multiple Values Without Commas
 
 [
-  "The more the merrier",
-  1e5,
-  true,
-  { },
-  ["I'm", "nested"]
+  "The more the merrier"
+  1e5
+  true
+  { }
+  ["I'm" "nested"]
 ]..
 
 ==>
@@ -39,42 +39,14 @@ Program(
 Program(
   ExpressionStatement(
     ArrayExpression("[",
-      String,",",
-      Number,",",
-      BooleanLiteral,",",
-      ObjectExpression("{","}"),",",
+      String,
+      Number,
+      BooleanLiteral,
+      ObjectExpression("{","}"),
       ArrayExpression("[",
-        String,",",
+        String,
         String,"]"
       ),"]"
-    )
-  ),
-  Terminator
-)
-
-# ArrayExpression With Trailing Comma
-
-[
-  "The more the merrier",
-  1e5,
-  true,
-  { },
-  ["I'm", "nested"],
-]..
-
-==>
-
-Program(
-  ExpressionStatement(
-    ArrayExpression("[",
-      String,",",
-      Number,",",
-      BooleanLiteral,",",
-      ObjectExpression("{","}"),",",
-      ArrayExpression("[",
-        String,",",
-        String,"]"
-      ),",","]"
     )
   ),
   Terminator

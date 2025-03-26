@@ -1,87 +1,87 @@
 @precedence {
-  comma @left
+  call @right
 }
 
 @top Program { statement* Terminator }
 
 @top SingleExpression { expression }
 
-
 Terminator { dotdot }
 
 statement[@isGroup=Statement] {
   declaration |
-  ExpressionStatement { expression }
+  expression
 }
 
 declaration {
-  VariableDeclaration
+  LetDeclaration
 }
 
-variableDeclarationKeyword {
-  kw<"let"> //| kw<"var"> | kw<"const"> | ckw<"await">? ckw<"using">
+LetDeclaration {
+  kw<"let"> LetDeclarator Terminator
 }
 
-VariableDeclaration {
-  variableDeclarationKeyword commaSep1<patternAssignTyped> Terminator
+LetDeclarator {
+  pattern ("=" statement*)?
 }
 
-pattern { VariableDefinition | ArrayPattern | ObjectPattern }
+pattern { BindingName | ArrayPattern | ObjectPattern }
 
-ArrayPattern { "[" commaSep<("..."? patternAssign)?> ~destructure "]" }
+ArrayPattern { "[" spaceSep<pattern>? "]" }
 
-ObjectPattern { "{" commaSep<PatternProperty> ~destructure "}" }
+ObjectPattern { "{" spaceSep<PatternProperty>? "}" }
 
-patternAssign {
-  pattern ("=" expressionNoComma)?
-}
-
-patternAssignTyped {
-  pattern Optional? ("=" expressionNoComma)?
+PatternProperty {
+  BindingName ":" pattern
 }
 
 expression[@isGroup=Expression] {
-  expressionNoComma | SequenceExpression
+  primaryExpression //|
 }
 
-SequenceExpression {
-  expressionNoComma !comma ("," expressionNoComma)+
-}
-
-expressionNoComma {
+primaryExpression {
   Number |
   String |
   TemplateString |
-  VariableName |
+  Name |
   boolean |
   kw<"null"> |
   ArrayExpression |
-  ObjectExpression { "{" commaSep<Property> ~destructure "}" } |
+  ObjectExpression |
   ParenthesizedExpression |
   Lambda
 }
 
+values {
+  primaryExpression+
+}
+
+//BinaryExpression[@dynamicPrecedence=-1] {
+//  expression !binary expression
+//}
+
 ParenthesizedExpression { "(" expression ")" }
 
 Lambda {
-  "<" identifier* ":" expressionNoComma ">"
+  "<" identifier* ":" expression ">"
 }
 
 ArrayExpression {
-  "[" commaSep1<"..."? expressionNoComma | ""> ~destructure "]"
+  "[" spaceSep<expression>? "]"
 }
 
-propName { PropertyDefinition | "[" expression "]" ~destructure | Number ~destructure | String ~destructure }
+ObjectExpression {
+  "{" spaceSep<Property>? "}"
+}
+
+spaceSep<content> {
+  content+
+}
+
+propName { BindingName | "[" expression "]" | Number | String }
 
 Property {
-  propName ~destructure (":" expressionNoComma)? |
-  "..." expressionNoComma
-}
-
-PatternProperty {
-  "..." patternAssign |
-  ((PropertyName | Number | String) ~destructure (":" pattern)? |
-   ("[" expression "]" ~destructure ":" pattern)) ("=" expressionNoComma)?
+  propName (":" expression)?
 }
 
 @skip {} {
@@ -97,27 +97,13 @@ PatternProperty {
 
 templateExpr[@name=Interpolation,isolate] { InterpolationStart expression? InterpolationEnd }
 
-commaSep<content> {
-  "" | content ("," content?)*
-}
-
-commaSep1<content> {
-  content ("," content)*
-}
-
 kw<term> { @specialize[@name={term}]<identifier, term> }
 
 boolean { @specialize[@name=BooleanLiteral]<identifier, "true" | "false"> }
 
-VariableName { identifier ~arrow }
+Name { identifier }
 
-VariableDefinition { identifier ~arrow }
-
-PropertyName { word ~propName }
-
-PropertyDefinition { word ~propName }
-
-Optional { "?" }
+BindingName { identifier }
 
 @skip {
   spaces |
@@ -144,13 +130,9 @@ Optional { "?" }
 
   identifierChar { @asciiLetter | $[_$\u{a1}-\u{10ffff}] }
 
-  word { identifierChar (identifierChar | @digit | "-")* }
-
-  identifier { word }
+  identifier { identifierChar (identifierChar | @digit | "-")* }
 
   @precedence { spaces, newline, identifier }
-
-  @precedence { spaces, newline, word }
 
   hex { @digit | $[a-fA-F] }
 
