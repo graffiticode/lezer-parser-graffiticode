@@ -63,7 +63,7 @@ values {
 ParenthesizedExpression { "(" expression ")" }
 
 Lambda {
-  "<" identifier* ":" expression ">"
+  "<" BindingName* ":" expression ">"
 }
 
 ArrayExpression {

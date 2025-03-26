@@ -23,12 +23,25 @@ Program(
   LetDeclaration(
     let,
     LetDeclarator(
-      Name,
+      BindingName,
       Equals,
       ObjectExpression("{",
-        Property(PropertyName,":",Number
-      ),
-      Property(PropertyName,":",Number),"}")),Terminator),Terminator)
+        Property(
+          BindingName,
+          ":",
+          Number
+        ),
+        Property(
+          BindingName,
+          ":",
+          Number
+        ),"}"
+      )
+    ),
+    Terminator
+  ),
+  Terminator
+)
 
 # Variable Declaration with Function Call
 
@@ -47,6 +60,32 @@ Program(
       Name,
       Number,
       Number
+    ),
+    Terminator
+  ),
+  Terminator
+)
+
+# Let Declaration with Lambda
+
+let result = <x: x>..
+..
+
+==>
+
+Program(
+  LetDeclaration(
+    let,
+    LetDeclarator(
+      BindingName,
+      Equals,
+      Lambda(
+        "<",
+        BindingName,
+        ":",
+        Name,
+        ">"
+      )
     ),
     Terminator
   ),
